@@ -13,9 +13,9 @@ O Pong é um clássico jogo de arcade onde dois jogadores controlam barras verti
 
 ## 👨‍🎓 Estudantes:
 
-- **Arthur Rodrigues[@ArthurLima05](https://github.com/ArthurLima05)**
+- **Arthur Rodrigues [@ArthurLima05](https://github.com/ArthurLima05)**
 - **Lucas Carvalho [@Lucascarv1804](https://github.com/Lucascarv1804)**
-- **Gabriel Cavalcante[@gabriel0liv](https://github.com/gabriel0livr)**
+- **Gabriel Cavalcante [@gabriel0liv](https://github.com/gabriel0livr)**
 
 ## 📚 Matéria:
 
