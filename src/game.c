@@ -1,81 +1,96 @@
 #include "../include/game.h"
-#include "../include/utils.h"
-#include <stdlib.h>
 #include <stdio.h>
-#include <cli.h>
+#include <stdlib.h>
 
-Ball ball;
-Paddle player1, player2;
-
-void init_game()
+void initializeGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle)
 {
-    ball.x = WIDTH / 2;
-    ball.y = HEIGHT / 2;
-    player1.x = 2;
-    player1.y = HEIGHT / 2 - 3;
-    player1.length = 6;
-    player2.x = WIDTH - 3;
-    player2.y = HEIGHT / 2 - 3;
-    player2.length = 6;
+    ball->x = SCREEN_WIDTH / 2;
+    ball->y = SCREEN_HEIGHT / 2;
+    ball->velocityX = 1;
+    ball->velocityY = 1;
+
+    leftPaddle->x = 1;
+    leftPaddle->y = SCREEN_HEIGHT / 2 - 2;
+    leftPaddle->width = 1;
+    leftPaddle->height = 5;
+
+    rightPaddle->x = SCREEN_WIDTH - 2;
+    rightPaddle->y = SCREEN_HEIGHT / 2 - 2;
+    rightPaddle->width = 1;
+    rightPaddle->height = 5;
 }
 
-void update_game()
+void updateGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle)
 {
-    ball.x += 1;
-    if (check_collision())
+    ball->x += ball->velocityX;
+    ball->y += ball->velocityY;
+
+    if (ball->y <= 0 || ball->y >= SCREEN_HEIGHT - 1)
     {
-        ball.x *= -1;
+        ball->velocityY = -ball->velocityY;
+    }
+
+    if (ball->x <= leftPaddle->x + leftPaddle->width &&
+        ball->y >= leftPaddle->y && ball->y <= leftPaddle->y + leftPaddle->height)
+    {
+        ball->velocityX = -ball->velocityX;
+    }
+
+    if (ball->x >= rightPaddle->x - rightPaddle->width &&
+        ball->y >= rightPaddle->y && ball->y <= rightPaddle->y + rightPaddle->height)
+    {
+        ball->velocityX = -ball->velocityX;
     }
 }
 
-void render_game()
+void renderGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle)
 {
-    clear_screen();
-    move_cursor(ball.x, ball.y);
-    printf("O");
-
-    for (int i = 0; i < player1.length; i++)
+    system("cls"); // Limpa a tela no Windows
+    for (int i = 0; i < SCREEN_HEIGHT; i++)
     {
-        move_cursor(player1.x, player1.y + i);
-        printf("|");
-    }
-
-    for (int i = 0; i < player2.length; i++)
-    {
-        move_cursor(player2.x, player2.y + i);
-        printf("|");
+        for (int j = 0; j < SCREEN_WIDTH; j++)
+        {
+            if (j == 0 || j == SCREEN_WIDTH - 1)
+            {
+                printf("|");
+            }
+            else if (i == ball->y && j == ball->x)
+            {
+                printf("O");
+            }
+            else if (j == leftPaddle->x && i >= leftPaddle->y && i < leftPaddle->y + leftPaddle->height)
+            {
+                printf("#");
+            }
+            else if (j == rightPaddle->x && i >= rightPaddle->y && i < rightPaddle->y + rightPaddle->height)
+            {
+                printf("#");
+            }
+            else
+            {
+                printf(" ");
+            }
+        }
+        printf("\n");
     }
 }
 
-void handle_input()
+void processInput(Paddle *leftPaddle, Paddle *rightPaddle)
 {
-    if (cli_key_pressed(CLI_KEY_W))
+    if (isKeyPressed('W') && leftPaddle->y > 0)
     {
-        if (player1.y > 0)
-        {
-            player1.y -= 1;
-        }
+        leftPaddle->y--;
     }
-    if (cli_key_pressed(CLI_KEY_S))
+    if (isKeyPressed('S') && leftPaddle->y < SCREEN_HEIGHT - leftPaddle->height)
     {
-        if (player1.y + player1.length < HEIGHT)
-        {
-            player1.y += 1;
-        }
+        leftPaddle->y++;
     }
-
-    if (cli_key_pressed(CLI_KEY_UP))
+    if (isKeyPressed('I') && rightPaddle->y > 0)
     {
-        if (player2.y > 0)
-        {
-            player2.y -= 1;
-        }
+        rightPaddle->y--;
     }
-    if (cli_key_pressed(CLI_KEY_DOWN))
+    if (isKeyPressed('K') && rightPaddle->y < SCREEN_HEIGHT - rightPaddle->height)
     {
-        if (player2.y + player2.length < HEIGHT)
-        {
-            player2.y += 1;
-        }
+        rightPaddle->y++;
     }
 }
