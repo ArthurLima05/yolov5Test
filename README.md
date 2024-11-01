@@ -10,7 +10,7 @@ O jogo termina automaticamente quando um dos jogadores alcança 7 pontos, declar
 O jogo é controlado pelo teclado, com as seguintes teclas:
 
 Paddle esquerdo:  
-W: Move para cima
+W: Move para cima  
 S: Move para baixo
 
 Paddle direito:  
@@ -21,8 +21,8 @@ A bola se move automaticamente na tela, quicando nas bordas superiores e inferio
 
 ## 🏆 Regras do Jogo
 
-• Pontos: O jogador marca pontos quando a bola ultrapassa o paddle do oponente.
-• Fim de Jogo: O jogo termina quando um dos jogadores alcança 7 pontos.
+• Pontos: O jogador marca pontos quando a bola ultrapassa o paddle do oponente.  
+• Fim de Jogo: O jogo termina quando um dos jogadores alcança 7 pontos.  
 • Sair do Jogo: Pressione a tecla Q a qualquer momento para sair do jogo.
 
 ## 🚀 Como Jogar
