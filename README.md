@@ -9,12 +9,12 @@ O jogo termina automaticamente quando um dos jogadores alcança 7 pontos, declar
 
 O jogo é controlado pelo teclado, com as seguintes teclas:
 
-Paddle esquerdo:
+Paddle esquerdo:  
 W: Move para cima
 S: Move para baixo
 
-Paddle direito:
-Seta para cima: Move para cima
+Paddle direito:  
+Seta para cima: Move para cima  
 Seta para baixo: Move para baixo
 
 A bola se move automaticamente na tela, quicando nas bordas superiores e inferiores. Sempre que a bola ultrapassa um paddle, o jogador adversário ganha um ponto.
