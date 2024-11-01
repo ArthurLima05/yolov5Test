@@ -1,26 +1,24 @@
+// src/game.h
 #ifndef GAME_H
 #define GAME_H
 
-#include "keyboard.h"
-
-#define SCREEN_WIDTH 80
-#define SCREEN_HEIGHT 24
-
 typedef struct
 {
-    int x, y;
-    int velocityX, velocityY;
-} Ball;
-
-typedef struct
-{
-    int x, y;
-    int width, height;
+    int x;      // Posição horizontal do paddle
+    int y;      // Posição vertical do paddle
+    int width;  // Largura do paddle
+    int height; // Altura do paddle
 } Paddle;
+
+typedef struct
+{
+    int x, y;   // Posição da bola
+    int dx, dy; // Direção da bola
+} Ball;
 
 void initializeGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle);
 void updateGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle);
 void renderGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle);
-void processInput(Paddle *leftPaddle, Paddle *rightPaddle);
+void processInput(Paddle *leftPaddle, Paddle *rightPaddle); // Atualize a declaração
 
 #endif // GAME_H

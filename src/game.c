@@ -1,96 +1,78 @@
 #include "../include/game.h"
-#include <stdio.h>
+#include "../include/utils.h"
+#include <ncurses.h>
 #include <stdlib.h>
+#include "../include/screen.h"
 
 void initializeGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle)
 {
-    ball->x = SCREEN_WIDTH / 2;
-    ball->y = SCREEN_HEIGHT / 2;
-    ball->velocityX = 1;
-    ball->velocityY = 1;
+    ball->x = COLS / 2; // Centraliza a bola
+    ball->y = LINES / 2;
+    ball->dx = 1; // Direção inicial da bola
+    ball->dy = 1;
 
-    leftPaddle->x = 1;
-    leftPaddle->y = SCREEN_HEIGHT / 2 - 2;
-    leftPaddle->width = 1;
-    leftPaddle->height = 5;
+    leftPaddle->x = 1;             // Posição do paddle esquerdo
+    leftPaddle->y = LINES / 2 - 1; // Centraliza verticalmente
+    leftPaddle->width = 1;         // Largura do paddle
+    leftPaddle->height = 3;        // Altura do paddle
 
-    rightPaddle->x = SCREEN_WIDTH - 2;
-    rightPaddle->y = SCREEN_HEIGHT / 2 - 2;
-    rightPaddle->width = 1;
-    rightPaddle->height = 5;
+    rightPaddle->x = COLS - 2;      // Posição do paddle direito
+    rightPaddle->y = LINES / 2 - 1; // Centraliza verticalmente
+    rightPaddle->width = 1;         // Largura do paddle
+    rightPaddle->height = 3;        // Altura do paddle
 }
-
-void updateGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle)
+void renderGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle)
 {
-    ball->x += ball->velocityX;
-    ball->y += ball->velocityY;
+    clearScreen(); // Limpa a tela
 
-    if (ball->y <= 0 || ball->y >= SCREEN_HEIGHT - 1)
+    // Renderiza a bola
+    mvprintw(ball->y, ball->x, "O"); // Exibe a bola
+
+    // Renderiza o paddle esquerdo
+    for (int i = 0; i < leftPaddle->height; i++)
     {
-        ball->velocityY = -ball->velocityY;
+        mvprintw(leftPaddle->y + i, leftPaddle->x, "|"); // Exibe o paddle esquerdo
     }
 
-    if (ball->x <= leftPaddle->x + leftPaddle->width &&
-        ball->y >= leftPaddle->y && ball->y <= leftPaddle->y + leftPaddle->height)
+    // Renderiza o paddle direito
+    for (int i = 0; i < rightPaddle->height; i++)
     {
-        ball->velocityX = -ball->velocityX;
+        mvprintw(rightPaddle->y + i, rightPaddle->x, "|"); // Exibe o paddle direito
+    }
+
+    refresh(); // Atualiza a tela
+}
+void updateGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle)
+{
+    // Atualiza a posição da bola
+    ball->x += ball->dx;
+    ball->y += ball->dy;
+
+    // Verifica colisão com o teto e o chão
+    if (ball->y <= 0 || ball->y >= LINES - 1)
+    {
+        ball->dy *= -1; // Inverte a direção
+    }
+
+    // Verifica colisão com paddles
+    if (ball->x <= leftPaddle->x + leftPaddle->width &&
+        ball->y >= leftPaddle->y &&
+        ball->y < leftPaddle->y + leftPaddle->height)
+    {
+        ball->dx *= -1; // Inverte a direção horizontal
     }
 
     if (ball->x >= rightPaddle->x - rightPaddle->width &&
-        ball->y >= rightPaddle->y && ball->y <= rightPaddle->y + rightPaddle->height)
+        ball->y >= rightPaddle->y &&
+        ball->y < rightPaddle->y + rightPaddle->height)
     {
-        ball->velocityX = -ball->velocityX;
+        ball->dx *= -1; // Inverte a direção horizontal
     }
-}
 
-void renderGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle)
-{
-    system("cls"); // Limpa a tela no Windows
-    for (int i = 0; i < SCREEN_HEIGHT; i++)
+    // Reseta a bola se ela sair pela esquerda ou direita
+    if (ball->x < 0 || ball->x >= COLS)
     {
-        for (int j = 0; j < SCREEN_WIDTH; j++)
-        {
-            if (j == 0 || j == SCREEN_WIDTH - 1)
-            {
-                printf("|");
-            }
-            else if (i == ball->y && j == ball->x)
-            {
-                printf("O");
-            }
-            else if (j == leftPaddle->x && i >= leftPaddle->y && i < leftPaddle->y + leftPaddle->height)
-            {
-                printf("#");
-            }
-            else if (j == rightPaddle->x && i >= rightPaddle->y && i < rightPaddle->y + rightPaddle->height)
-            {
-                printf("#");
-            }
-            else
-            {
-                printf(" ");
-            }
-        }
-        printf("\n");
-    }
-}
-
-void processInput(Paddle *leftPaddle, Paddle *rightPaddle)
-{
-    if (isKeyPressed('W') && leftPaddle->y > 0)
-    {
-        leftPaddle->y--;
-    }
-    if (isKeyPressed('S') && leftPaddle->y < SCREEN_HEIGHT - leftPaddle->height)
-    {
-        leftPaddle->y++;
-    }
-    if (isKeyPressed('I') && rightPaddle->y > 0)
-    {
-        rightPaddle->y--;
-    }
-    if (isKeyPressed('K') && rightPaddle->y < SCREEN_HEIGHT - rightPaddle->height)
-    {
-        rightPaddle->y++;
+        ball->x = COLS / 2;
+        ball->y = LINES / 2;
     }
 }

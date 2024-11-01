@@ -1,18 +1,13 @@
-#include "../include/keyboard.h"
 #include "../include/utils.h"
-#include <conio.h>
+#include <ncurses.h>
+#include <unistd.h>
 
-int isKeyPressed(char key)
+void clearScreen()
 {
-    if (_kbhit())
-    {
-        char ch = _getch();
-        return ch == key;
-    }
-    return 0;
+    clear(); // Limpa a tela
 }
 
-void clear_screen()
+void delay(int milliseconds)
 {
-    system("cls");
+    usleep(milliseconds * 100); // Pausa a execução por um número de milissegundos
 }
