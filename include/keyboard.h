@@ -7,8 +7,8 @@
 
 void keyboardInit();
 void keyboardDestroy();
-int keyhit(); // Adicione a declaração aqui
-int readch(); // Adicione a declaração aqui
+int keyhit();
+int readch();
 void processInput(Paddle *leftPaddle, Paddle *rightPaddle);
 
 #endif // KEYBOARD_H

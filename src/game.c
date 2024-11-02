@@ -26,7 +26,7 @@ void renderGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle)
     clearScreen(); // Limpa a tela
 
     // Renderiza a bola
-    mvprintw(ball->y, ball->x, "O"); // Exibe a bola
+    mvprintw(ball->y, ball->x, "O");
 
     // Renderiza o paddle esquerdo
     for (int i = 0; i < leftPaddle->height; i++)

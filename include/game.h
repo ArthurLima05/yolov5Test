@@ -19,6 +19,6 @@ typedef struct
 void initializeGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle);
 void updateGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle);
 void renderGame(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle);
-void processInput(Paddle *leftPaddle, Paddle *rightPaddle); // Atualize a declaração
+void processInput(Paddle *leftPaddle, Paddle *rightPaddle);
 
 #endif // GAME_H

@@ -47,7 +47,6 @@ void endScreen()
 
 void updateScreen()
 {
-    // Implementação de atualização da tela se necessário
 }
 
 void setColors(ScreenColor fg, ScreenColor bg)
